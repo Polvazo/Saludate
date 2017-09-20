@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">SALUDATE</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+    //ACTIVITY LOGIN
+    <string name="a_log_btn_login">Ingresar</string>
+    <string name="a_log_btn_close">Salir</string>
+    <string name="a_log_check_recordar">Recordar Usuario</string>
+    <string name="a_log_Usuario">Ingrese Usuario</string>
+    <string name="a_log_Contrasenha">Ingrese Password</string>
+    <string name="a_log_dialogoSalir_title">SALUDATE</string>
+    <string name="a_log_dialogoSalir_message">¿Está seguro que desea salir?</string>
+    <string name="a_log_editText_hint">Usuario Desconectado</string>
+    <string name="a_log_toast_autentificacihon">usuario y contraseña incorrectos</string>
+    <string name="a_log_toast_internet">Lo sentimos, compruebe su conexión a Internet</string>
+    <string name="a_log_toast_logueado">Bienvenido a Saludate</string>
+
+
+    //VERIFICAR INTERNET
+    <string name="s_ver_dialogoInternt_tittle">Conectando...</string>
+    <string name="s_ver_dialogoInternt_message">Conectándose al servidor</string>
+
+    //ARRAY SPINNER
+    <string-array name="especialidad_array">
+        <item>Seleccione una especialidad</item>
+    </string-array>
+
+    <string-array name="doctor_array">
+        <item>Seleccione un(a) doctor(a)</item>
+    </string-array>
+
+    <string-array name="horarios_array">
+        <item>Seleccione un horario</item>
+    </string-array>
+
+
+    //ACTIVITY MAIN
+    <string name="a_mai__tabCita">Citas</string>
+    <string name="a_mai__tabHistorial">Historial</string>
+    <string name="a_mai__tabPerfil">Perfil</string>
+    <string name="a_mai__ok">Salir</string>
+    <string name="a_mai__cancel">Cancel</string>
+
+    //FRAGMENT DATA
+    <string name="f_fda_estadoCivil">Estado Civil</string>
+    <string name="f_fda_correo">Correo Electronico</string>
+    <string name="f_fda_genero">Genero</string>
+    <string name="f_fda_dni">DNI</string>
+    <string name="f_fda_LugarNacimiento">Lugar de Nacimiento</string>
+    <string name="f_fda_celular">Celular</string>
+    <string name="f_fda_desconocido">unknown</string>
+
+
+    //ALERTADIALOG
+    <string name="a_adi_nuevaCiata">Programar Cita</string>
+    <string name="a_adi_descripcion">Descripción de la Cita</string>
+    <string name="a_adi_anotacion">Anotaciones</string>
+</resources>
