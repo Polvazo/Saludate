@@ -34,6 +34,7 @@ public class appointmentFragment extends Fragment {
     ListView list;
     List<General> general;
     appointmentAdapter adapt;
+    Fragment myFragment;
     private SwipeRefreshLayout refresh;
 
 
@@ -41,6 +42,7 @@ public class appointmentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment, container, false);
+        setRetainInstance(true);
         list = (ListView) view.findViewById(R.id.listCita);
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -89,8 +91,8 @@ public class appointmentFragment extends Fragment {
                     }
 
                     Log.i("entro", "fragments");
-                     adapt = new appointmentAdapter(getActivity(), R.layout.cita_adapter_list, finalGeneralFilter);
-                    if (getActivity()!=null){
+                    adapt = new appointmentAdapter(getActivity(), R.layout.cita_adapter_list, finalGeneralFilter);
+                    if (getActivity() != null) {
                         list.setAdapter(adapt);
                         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                             @Override
@@ -101,7 +103,6 @@ public class appointmentFragment extends Fragment {
                             }
                         });
                     }
-
 
 
                 } else {
@@ -117,4 +118,5 @@ public class appointmentFragment extends Fragment {
 
 
     }
-}
+
+   }

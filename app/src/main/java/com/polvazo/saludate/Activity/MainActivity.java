@@ -1,5 +1,6 @@
 package com.polvazo.saludate.Activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ScheduleDoctor> horario;
     ArrayList<Speciality> especialidad;
     especialidadAdapter adapt;
+    private Activity context = this;
     doctorAdapter doctoradapt;
     horarioAdapter horarioadapter;
     Spinner spinner;
@@ -290,13 +292,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    doctoradapt = new doctorAdapter(getApplicationContext(), R.layout.spinner_row, finallist);
+                    doctoradapt = new doctorAdapter(context, finallist);
                     spinner2.setAdapter(doctoradapt);
                     spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             horarioFiltrado = spinner2.getSelectedItem().toString();
-                            //getFecha(horarioFiltrado);
+                            getFecha(horarioFiltrado);
                         }
 
                         @Override
@@ -328,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                     especialidad = response.body();
                     Log.i("estado", "entroDoctor");
 
-                    adapt = new especialidadAdapter(getApplicationContext(), R.layout.spinner_row, especialidad);
+                    adapt = new especialidadAdapter(context, especialidad);
                     spinner.setAdapter(adapt);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -358,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getFecha(final String doctore) {
 
-        Log.i("entro","horario");
+        Log.i("entro", "horario");
 
         doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
         Call<ArrayList<ScheduleDoctor>> call = doctorservice.getHorario();
@@ -368,14 +370,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<ScheduleDoctor>> call, Response<ArrayList<ScheduleDoctor>> response) {
                 if (response.isSuccessful()) {
                     horario = response.body();
-                    Log.i("entro","horario respondio");
+                    Log.i("entro", "horario respondio");
                     for (int i = 0; i < horario.size(); i++) {
                         if ((horario.get(i).getDoctor().getPerson().getUser().getFirst_name() + " " + horario.get(i).getDoctor().getPerson().getUser().getLast_name()).equals(doctore)) {
                             horarioFinal.add(horario.get(i));
                         }
                     }
-                    horarioadapter = new horarioAdapter(getApplicationContext(), R.layout.spinner_row, horarioFinal);
-                    spinner2.setAdapter(horarioadapter);
+                    horarioadapter = new horarioAdapter(context,horarioFinal);
+
+                    spinner3.setAdapter(horarioadapter);
+                    spinner3.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
 
 
                 } else {
@@ -404,5 +408,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.cancel();
         dialog.show();
+    }
+
+    public void ProgramarCita() {
+
     }
 }

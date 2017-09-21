@@ -44,6 +44,6 @@ public class ScheduleDoctor {
 
     @Override
     public String toString() {
-        return availability_date+schedule.getFinish_hour()+schedule.getStart_hour();
+        return availability_date+" horario: "+schedule.getStart_hour()+" a "+schedule.getFinish_hour();
     }
 }

@@ -33,53 +33,44 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            >
+
 
             <EditText
                 android:id="@+id/et_username"
+                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/fondoedidtext"
                 android:hint="@string/a_log_Usuario"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:inputType="text|textNoSuggestions"
                 android:padding="10dp"
 
                 />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true"
-            app:passwordToggleDrawable="@mipmap/ic_launcher"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimaryDark">
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="30dp"
+                android:drawableLeft="@drawable/ic_password"
                 android:background="@drawable/fondoedidtext"
                 android:hint="@string/a_log_Contrasenha"
                 android:inputType="numberPassword"
                 android:padding="10dp" />
-        </android.support.design.widget.TextInputLayout>
+
 
         <CheckBox
             android:id="@+id/check_recordar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:buttonTint="@color/colorPrimaryDark"
             android:layout_marginTop="10dp"
             android:text="@string/a_log_check_recordar" />
 

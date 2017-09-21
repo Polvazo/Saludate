@@ -1,12 +1,15 @@
 package com.polvazo.saludate.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -30,8 +33,11 @@ public class login extends AppCompatActivity {
     private EditText usuario;
     private EditText contrasenha;
     private CheckBox recordar;
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
     private String user;
     private String pass;
+    private Boolean saveLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +48,34 @@ public class login extends AppCompatActivity {
         login = (Button) findViewById(R.id.btn_login);
         recordar = (CheckBox) findViewById(R.id.check_recordar);
         usuario = (EditText) findViewById(R.id.et_username);
+        loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
         contrasenha = (EditText) findViewById(R.id.et_password);
-        /*if(recordar.isChecked()){
-            if(usuario!=null && contrasenha !=null){
-            preferencia.Guardar(Contants.USUARIO_GUARDADO,usuario,getApplicationContext());
-            preferencia.Guardar(Contants.CONTRASENHA_GUARDADA,contrasenha,getApplicationContext());}
-        }*/
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            usuario.setText(loginPreferences.getString("username", ""));
+            contrasenha.setText(loginPreferences.getString("password", ""));
+            recordar.setChecked(true);
+        }
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(usuario.getWindowToken(), 0);
                 loginService();
+                if (recordar.isChecked()) {
+                    loginPrefsEditor.putBoolean("saveLogin", true);
+                    loginPrefsEditor.putString("username", user);
+                    loginPrefsEditor.putString("password", pass);
+                    loginPrefsEditor.commit();
+                } else {
+                    loginPrefsEditor.clear();
+                    loginPrefsEditor.commit();
+                }
+
+
             }
         });
 
