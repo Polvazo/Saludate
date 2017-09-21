@@ -1,10 +1,8 @@
 package com.polvazo.saludate.Activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,23 +18,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.polvazo.saludate.Adapters.Pager;
 import com.polvazo.saludate.Adapters.appointmentAdapter;
 import com.polvazo.saludate.Adapters.doctorAdapter;
-import com.polvazo.saludate.Constans.Contants;
+import com.polvazo.saludate.Adapters.especialidadAdapter;
+import com.polvazo.saludate.Adapters.horarioAdapter;
 import com.polvazo.saludate.Models.General;
+import com.polvazo.saludate.Models.ScheduleDoctor;
 import com.polvazo.saludate.Models.Speciality;
 import com.polvazo.saludate.Models.SpecialityDoctor;
 import com.polvazo.saludate.R;
-import com.polvazo.saludate.Service.AppointmentService;
 import com.polvazo.saludate.Service.ServiceGenerator;
 import com.polvazo.saludate.Service.doctorService;
-import com.polvazo.saludate.Util.preferencia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +40,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.R.id.list;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private AlertDialog dialog1;
     ArrayList<SpecialityDoctor> doctor;
+    ArrayList<ScheduleDoctor> horario;
     ArrayList<Speciality> especialidad;
-    doctorAdapter adapt;
+    especialidadAdapter adapt;
+    doctorAdapter doctoradapt;
+    horarioAdapter horarioadapter;
     Spinner spinner;
-    ArrayList<Speciality> customSpeciality = new ArrayList<>();
+    Spinner spinner3;
+    String especialidadFiltrada;
+    String horarioFiltrado;
+    Spinner spinner2;
     MainActivity activity = null;
 
     @Override
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         activity = this;
-        spinner = (Spinner) findViewById(R.id.spinner_Doctor);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -271,21 +271,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void getDoctor() {
+    public void getDoctor(final String especialidadFiltrada) {
 
-        spinner = (Spinner) findViewById(R.id.spinner_Doctor);
-        doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
+
+        final doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
         Call<ArrayList<SpecialityDoctor>> call = doctorservice.getSpecialityDoctor();
+        final ArrayList<SpecialityDoctor> finallist = new ArrayList<>();
         call.enqueue(new Callback<ArrayList<SpecialityDoctor>>() {
             @Override
             public void onResponse(Call<ArrayList<SpecialityDoctor>> call, Response<ArrayList<SpecialityDoctor>> response) {
                 if (response.isSuccessful()) {
-                    Log.i("estado", "entroDoctor");
+                    Log.i("estado", "entroDoctor Especilaidad");
                     doctor = response.body();
                     for (int i = 0; i < doctor.size(); i++) {
-                        Log.i("especialidad", doctor.get(i).getSpeciality().getName());
+                        if (doctor.get(i).getSpeciality().getName().equals(especialidadFiltrada)) {
+                            finallist.add(doctor.get(i));
+
+                        }
                     }
 
+                    doctoradapt = new doctorAdapter(getApplicationContext(), R.layout.spinner_row, finallist);
+                    spinner2.setAdapter(doctoradapt);
+                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            horarioFiltrado = spinner2.getSelectedItem().toString();
+                            //getFecha(horarioFiltrado);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
 
                 } else {
                 }
@@ -309,14 +327,23 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     especialidad = response.body();
                     Log.i("estado", "entroDoctor");
-                    Speciality esp = new Speciality();
-                    for (int i = 0; i < especialidad.size(); i++) {
-                        esp.setName(especialidad.get(i).getName());
-                        customSpeciality.add(esp);
-                    }
 
+                    adapt = new especialidadAdapter(getApplicationContext(), R.layout.spinner_row, especialidad);
+                    spinner.setAdapter(adapt);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            especialidadFiltrada = spinner.getSelectedItem().toString();
 
+                            getDoctor(especialidadFiltrada);
+                            Log.i("espcialidad", especialidadFiltrada);
+                        }
 
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                 } else {
                 }
             }
@@ -329,12 +356,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void getFecha(final String doctore) {
+
+        Log.i("entro","horario");
+
+        doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
+        Call<ArrayList<ScheduleDoctor>> call = doctorservice.getHorario();
+        final ArrayList<ScheduleDoctor> horarioFinal = new ArrayList<>();
+        call.enqueue(new Callback<ArrayList<ScheduleDoctor>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ScheduleDoctor>> call, Response<ArrayList<ScheduleDoctor>> response) {
+                if (response.isSuccessful()) {
+                    horario = response.body();
+                    Log.i("entro","horario respondio");
+                    for (int i = 0; i < horario.size(); i++) {
+                        if ((horario.get(i).getDoctor().getPerson().getUser().getFirst_name() + " " + horario.get(i).getDoctor().getPerson().getUser().getLast_name()).equals(doctore)) {
+                            horarioFinal.add(horario.get(i));
+                        }
+                    }
+                    horarioadapter = new horarioAdapter(getApplicationContext(), R.layout.spinner_row, horarioFinal);
+                    spinner2.setAdapter(horarioadapter);
+
+
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ScheduleDoctor>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
     public void newCita() {
-        getEspecialidad();
+
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.alertdialog_register_appointment, null);
         mBuilder.setView(mView);
+        spinner = (Spinner) mView.findViewById(R.id.spinner_Especialidad);
         final AlertDialog dialog = mBuilder.create();
+        spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
+        spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
+        getEspecialidad();
         dialog.setCancelable(false);
         dialog.cancel();
         dialog.show();

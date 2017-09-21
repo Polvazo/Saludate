@@ -39,4 +39,9 @@ public class SpecialityDoctor {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
+
+    @Override
+    public String toString() {
+        return doctor.getPerson().getUser().getFirst_name()+" "+doctor.getPerson().getUser().getLast_name();
+    }
 }

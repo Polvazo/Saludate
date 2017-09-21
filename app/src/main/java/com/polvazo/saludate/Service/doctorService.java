@@ -1,6 +1,7 @@
 package com.polvazo.saludate.Service;
 
 
+import com.polvazo.saludate.Models.ScheduleDoctor;
 import com.polvazo.saludate.Models.Speciality;
 import com.polvazo.saludate.Models.SpecialityDoctor;
 
@@ -18,4 +19,7 @@ public interface doctorService {
 
     @GET("/doctor/speciality-api/")
     Call<ArrayList<Speciality>> getSpeciality();
+
+    @GET("/doctor/schedule-doctor-api")
+    Call<ArrayList<ScheduleDoctor>> getHorario();
 }

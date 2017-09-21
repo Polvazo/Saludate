@@ -41,4 +41,9 @@ public class ScheduleDoctor {
     public void setAvailability_date(String availability_date) {
         this.availability_date = availability_date;
     }
+
+    @Override
+    public String toString() {
+        return availability_date+schedule.getFinish_hour()+schedule.getStart_hour();
+    }
 }

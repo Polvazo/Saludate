@@ -22,6 +22,9 @@
     <string name="s_ver_dialogoInternt_tittle">Conectando...</string>
     <string name="s_ver_dialogoInternt_message">Conectándose al servidor</string>
 
+
+    //HORARIO ADAPTER
+    <string name="a_hor_mensaje">horario:</string>
     //ARRAY SPINNER
     <string-array name="especialidad_array">
         <item>Seleccione una especialidad</item>
