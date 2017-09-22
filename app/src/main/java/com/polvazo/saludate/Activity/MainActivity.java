@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -400,11 +401,25 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.alertdialog_register_appointment, null);
         mBuilder.setView(mView);
+        Button nuevaCita = (Button)mView.findViewById(R.id.btn_new_cita);
+        Button cancelar = (Button)mView.findViewById(R.id.btn_salir);
         spinner = (Spinner) mView.findViewById(R.id.spinner_Especialidad);
         final AlertDialog dialog = mBuilder.create();
         spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
         spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
         getEspecialidad();
+        nuevaCita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         dialog.setCancelable(false);
         dialog.cancel();
         dialog.show();

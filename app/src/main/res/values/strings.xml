@@ -58,6 +58,7 @@
 
     //ALERTADIALOG
     <string name="a_adi_nuevaCiata">Programar Cita</string>
+    <string name="a_adi_cancelar">Cancelar</string>
     <string name="a_adi_descripcion">Descripción de la Cita</string>
     <string name="a_adi_anotacion">Anotaciones</string>
 </resources>

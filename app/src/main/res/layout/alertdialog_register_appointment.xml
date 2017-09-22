@@ -70,7 +70,7 @@
                     android:gravity="center"
                     android:text="@string/a_adi_descripcion"
                     android:textColor="@color/colorButton"
-                    android:textSize="20dp" />
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     android:gravity="center"
                     android:text="@string/a_adi_anotacion"
                     android:textColor="@color/colorButton"
-                    android:textSize="20dp" />
+                    android:textSize="15dp" />
 
                 <EditText
 
@@ -104,22 +104,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
+
     <Button
+        android:id="@+id/btn_new_cita"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_button"
-        android:layout_weight="1"
         android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_button"
         android:text="@string/a_adi_nuevaCiata"
         android:textColor="@color/colorButton" />
+
     <Button
+        android:id="@+id/btn_salir"
         android:layout_width="match_parent"
-        android:layout_margin="5dp"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@drawable/background_button"
-
-        android:text="@string/a_adi_nuevaCiata"
+        android:text="@string/a_adi_cancelar"
         android:textColor="@color/colorButton" />
 </LinearLayout>
 </LinearLayout>

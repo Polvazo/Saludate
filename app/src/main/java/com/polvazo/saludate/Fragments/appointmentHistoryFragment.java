@@ -70,7 +70,7 @@ public class appointmentHistoryFragment extends Fragment {
         Integer id = Integer.parseInt(idUser);
         AppointmentService Appointment = ServiceGenerator.createService(AppointmentService.class);
         Call<List<General>> call = Appointment.getAppointment(id);
-        final List<General> finalGeneralFilter = new ArrayList<>();
+        final ArrayList<General> finalGeneralFilter = new ArrayList<>();
         call.enqueue(new Callback<List<General>>() {
             @Override
             public void onResponse(Call<List<General>> call, Response<List<General>> response) {
@@ -85,7 +85,7 @@ public class appointmentHistoryFragment extends Fragment {
                     }
 
                     Log.i("entro", "fragments");
-                    appointmentAdapter adapt = new appointmentAdapter(getActivity(), R.layout.cita_adapter_list, finalGeneralFilter);
+                    appointmentAdapter adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
                     if (getActivity()!=null){
                         list.setAdapter(adapt);
                     }

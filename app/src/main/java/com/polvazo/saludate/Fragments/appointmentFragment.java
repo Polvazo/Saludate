@@ -1,8 +1,10 @@
 package com.polvazo.saludate.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,11 +40,13 @@ public class appointmentFragment extends Fragment {
     private SwipeRefreshLayout refresh;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment, container, false);
         setRetainInstance(true);
+
         list = (ListView) view.findViewById(R.id.listCita);
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -76,7 +80,7 @@ public class appointmentFragment extends Fragment {
         Integer id = Integer.parseInt(idUser);
         AppointmentService Appointment = ServiceGenerator.createService(AppointmentService.class);
         Call<List<General>> call = Appointment.getAppointment(id);
-        final List<General> finalGeneralFilter = new ArrayList<>();
+        final ArrayList<General> finalGeneralFilter = new ArrayList<>();
         call.enqueue(new Callback<List<General>>() {
             @Override
             public void onResponse(Call<List<General>> call, Response<List<General>> response) {
@@ -91,7 +95,7 @@ public class appointmentFragment extends Fragment {
                     }
 
                     Log.i("entro", "fragments");
-                    adapt = new appointmentAdapter(getActivity(), R.layout.cita_adapter_list, finalGeneralFilter);
+                    adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
                     if (getActivity() != null) {
                         list.setAdapter(adapt);
                         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

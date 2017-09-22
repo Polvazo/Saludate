@@ -53,7 +53,7 @@ public class horarioAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.spinner_row, parent, false);
 
         TextView spinnerItem = (TextView) view.findViewById(R.id.spinnerItem);
-        spinnerItem.setText(horario.get(position).getAvailability_date() + R.string.a_hor_mensaje + horario.get(position).getSchedule().getStart_hour() + " " + horario.get(position).getSchedule().getFinish_hour());
+        spinnerItem.setText("Fecha: "+horario.get(position).getAvailability_date() +" Hora:"+horario.get(position).getSchedule().getStart_hour());
 
         return view;
     }
