@@ -20,28 +20,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polvazo.saludate.Adapters.Pager;
 import com.polvazo.saludate.Adapters.appointmentAdapter;
 import com.polvazo.saludate.Adapters.doctorAdapter;
 import com.polvazo.saludate.Adapters.especialidadAdapter;
 import com.polvazo.saludate.Adapters.horarioAdapter;
+import com.polvazo.saludate.Constans.Contants;
 import com.polvazo.saludate.Models.General;
 import com.polvazo.saludate.Models.ScheduleDoctor;
 import com.polvazo.saludate.Models.Speciality;
 import com.polvazo.saludate.Models.SpecialityDoctor;
+import com.polvazo.saludate.Models.appointmentProcess;
 import com.polvazo.saludate.R;
+import com.polvazo.saludate.Service.AppointmentService;
 import com.polvazo.saludate.Service.ServiceGenerator;
 import com.polvazo.saludate.Service.doctorService;
+import com.polvazo.saludate.Util.preferencia;
+import com.squareup.picasso.Downloader;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
     String horarioFiltrado;
     Spinner spinner2;
     MainActivity activity = null;
+    private Integer especialidadPost;
+    private Integer doctorPost;
+    private Integer fechaPost;
+    private EditText descripcion;
+    private EditText anotation;
+    private String descripcionPost;
+    private String anotatioPost;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,11 +314,14 @@ public class MainActivity extends AppCompatActivity {
 
                     doctoradapt = new doctorAdapter(context, finallist);
                     spinner2.setAdapter(doctoradapt);
+                    spinner2.setSelection(doctoradapt.NO_SELECTION, true);
                     spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             horarioFiltrado = spinner2.getSelectedItem().toString();
+                            doctorPost = doctoradapt.getItem(position).getId();
                             getFecha(horarioFiltrado);
+                            Log.i("doctor", horarioFiltrado);
                         }
 
                         @Override
@@ -333,11 +355,12 @@ public class MainActivity extends AppCompatActivity {
 
                     adapt = new especialidadAdapter(context, especialidad);
                     spinner.setAdapter(adapt);
+                    spinner.setSelection(adapt.NO_SELECTION, true);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             especialidadFiltrada = spinner.getSelectedItem().toString();
-
+                            especialidadPost = adapt.getItem(position).getId();
                             getDoctor(especialidadFiltrada);
                             Log.i("espcialidad", especialidadFiltrada);
                         }
@@ -377,10 +400,23 @@ public class MainActivity extends AppCompatActivity {
                             horarioFinal.add(horario.get(i));
                         }
                     }
-                    horarioadapter = new horarioAdapter(context,horarioFinal);
-
+                    horarioadapter = new horarioAdapter(context, horarioFinal);
+                    spinner3.setSelection(adapt.NO_SELECTION, true);
                     spinner3.setAdapter(horarioadapter);
-                    spinner3.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+
+                    spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            fechaPost = horarioadapter.getItem(position).getId();
+                            String fecha2 = spinner3.getSelectedItem().toString();
+                            Log.i("fechaMierda", fecha2);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
 
 
                 } else {
@@ -401,17 +437,22 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.alertdialog_register_appointment, null);
         mBuilder.setView(mView);
-        Button nuevaCita = (Button)mView.findViewById(R.id.btn_new_cita);
-        Button cancelar = (Button)mView.findViewById(R.id.btn_salir);
+        Button nuevaCita = (Button) mView.findViewById(R.id.btn_new_cita);
+        Button cancelar = (Button) mView.findViewById(R.id.btn_salir);
+        anotation = (EditText) mView.findViewById(R.id.et_anotation);
+        descripcion = (EditText) mView.findViewById(R.id.et_descripcion);
         spinner = (Spinner) mView.findViewById(R.id.spinner_Especialidad);
-        final AlertDialog dialog = mBuilder.create();
+        dialog = mBuilder.create();
         spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
         spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
         getEspecialidad();
         nuevaCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                anotatioPost = anotation.getText().toString().trim();
+                descripcionPost = descripcion.getText().toString().trim();
+                ProgramarCita();
+                dialog.dismiss();
             }
         });
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -426,6 +467,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ProgramarCita() {
+
+
+
+        String idUser = preferencia.obtener(Contants.ID_USUARIO, getApplicationContext());
+        Integer id = Integer.parseInt(idUser);
+        appointmentProcess cita = new appointmentProcess(1,2,2,"we","asd","Cancelado");
+        /*List<appointmentProcess> friendsList = new ArrayList<appointmentProcess>();
+        appointmentProcess s = new appointmentProcess();
+        s.setSchedule_doctor(2);
+        s.setSpeciality_doctor(2);
+        s.setPatient(2);
+        s.setDescription("asda");
+        s.setAnnotations("asd");
+        s.setStatus("Cancelado");
+        friendsList.add(s);*/
+        AppointmentService nuevacita = ServiceGenerator.createService(AppointmentService.class);
+        Call<ResponseBody> call = nuevacita.crearNuevaCita(1,2,2,"asda","asd","Cancelado");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("que error es ", String.valueOf(response.isSuccessful()));
+                if (response.isSuccessful()) {
+                    Log.i("se creo cita", "se creo");
+                    Toast.makeText(getApplicationContext(), "Nueva cita creada", Toast.LENGTH_LONG);
+                    dialog.dismiss();
+                } else {
+                    Log.i("este rrore de mrd", String.valueOf(response.code()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("se creo cita", "no conexion");
+            }
+        });
 
     }
 }

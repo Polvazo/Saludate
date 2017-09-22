@@ -33,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
+                android:entries="@array/especialidad_array"
                 android:layout_marginTop="20dp"
                                  />
 
@@ -43,6 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
+                android:entries="@array/doctor_array"
                 />
 
 
@@ -52,6 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
+                android:entries="@array/horarios_array"
 
                 />
 
@@ -73,6 +76,7 @@
                     android:textSize="15dp" />
 
                 <EditText
+                    android:id="@+id/et_descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -91,6 +95,7 @@
 
                 <EditText
 
+                    android:id="@+id/et_anotation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"

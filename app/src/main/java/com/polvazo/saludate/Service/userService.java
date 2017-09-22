@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface userService {
 
-    @GET("/login")
+    @GET("login")
     Call<userLogin> getStatus (@Query("username") String username,
                                @Query("password") String password);
 }

@@ -28,6 +28,7 @@
     //ARRAY SPINNER
     <string-array name="especialidad_array">
         <item>Seleccione una especialidad</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="doctor_array">
@@ -45,7 +46,7 @@
     <string name="a_mai__tabPerfil">Perfil</string>
     <string name="a_mai__ok">Salir</string>
     <string name="a_mai__cancel">Cancel</string>
-
+    <string name="a_mai__pendient">Por Atender</string>
     //FRAGMENT DATA
     <string name="f_fda_estadoCivil">Estado Civil</string>
     <string name="f_fda_correo">Correo Electronico</string>
