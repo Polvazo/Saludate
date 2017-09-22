@@ -353,12 +353,17 @@ public class MainActivity extends AppCompatActivity {
                     especialidad = response.body();
                     Log.i("estado", "entroDoctor");
 
+
                     adapt = new especialidadAdapter(context, especialidad);
+
                     spinner.setAdapter(adapt);
-                    spinner.setSelection(adapt.NO_SELECTION, true);
+                    spinner.setSelection(adapt.NO_SELECTION, false);
+
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
                             especialidadFiltrada = spinner.getSelectedItem().toString();
                             especialidadPost = adapt.getItem(position).getId();
                             getDoctor(especialidadFiltrada);
@@ -452,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
                 anotatioPost = anotation.getText().toString().trim();
                 descripcionPost = descripcion.getText().toString().trim();
                 ProgramarCita();
+
                 dialog.dismiss();
             }
         });
@@ -469,21 +475,10 @@ public class MainActivity extends AppCompatActivity {
     public void ProgramarCita() {
 
 
-
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getApplicationContext());
         Integer id = Integer.parseInt(idUser);
-        appointmentProcess cita = new appointmentProcess(1,2,2,"we","asd","Cancelado");
-        /*List<appointmentProcess> friendsList = new ArrayList<appointmentProcess>();
-        appointmentProcess s = new appointmentProcess();
-        s.setSchedule_doctor(2);
-        s.setSpeciality_doctor(2);
-        s.setPatient(2);
-        s.setDescription("asda");
-        s.setAnnotations("asd");
-        s.setStatus("Cancelado");
-        friendsList.add(s);*/
         AppointmentService nuevacita = ServiceGenerator.createService(AppointmentService.class);
-        Call<ResponseBody> call = nuevacita.crearNuevaCita(1,2,2,"asda","asd","Cancelado");
+        Call<ResponseBody> call = nuevacita.crearNuevaCita(1, 2, 2, "asda", "asd", "Cancelado");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -505,4 +500,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

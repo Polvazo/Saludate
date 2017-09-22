@@ -28,7 +28,7 @@
     //ARRAY SPINNER
     <string-array name="especialidad_array">
         <item>Seleccione una especialidad</item>
-        <item>4</item>
+
     </string-array>
 
     <string-array name="doctor_array">
@@ -55,11 +55,16 @@
     <string name="f_fda_LugarNacimiento">Lugar de Nacimiento</string>
     <string name="f_fda_celular">Celular</string>
     <string name="f_fda_desconocido">unknown</string>
-
+    <string name="f_fda_modificarAlert">Modificar cita</string>
+    <string name="f_fda_cancelarAlert">Cancelar cita</string>4
+    <string name="f_fda_salirAlert">Salir</string>
+    <string name="f_fda_titleAlert">SALUDATE</string>
+    <string name="f_fda_messageAlert">Seleccione una de las 3 opciones</string>
 
     //ALERTADIALOG
     <string name="a_adi_nuevaCiata">Programar Cita</string>
     <string name="a_adi_cancelar">Cancelar</string>
     <string name="a_adi_descripcion">Descripción de la Cita</string>
     <string name="a_adi_anotacion">Anotaciones</string>
+    <string name="a_adi_promt">Selecionar</string>
 </resources>

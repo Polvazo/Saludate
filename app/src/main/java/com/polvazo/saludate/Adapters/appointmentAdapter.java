@@ -54,6 +54,7 @@ public class appointmentAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
+
         View view = inflater.inflate(R.layout.cita_adapter_list, parent, false);
 
 

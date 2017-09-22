@@ -1,6 +1,8 @@
 package com.polvazo.saludate.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import com.polvazo.saludate.Util.preferencia;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +41,9 @@ public class appointmentFragment extends Fragment {
     appointmentAdapter adapt;
     Fragment myFragment;
     private SwipeRefreshLayout refresh;
-
+    private AlertDialog alertDialog;
+    private Integer numeroCita;
+    private Boolean estadoCita;
 
 
     @Nullable
@@ -98,11 +103,16 @@ public class appointmentFragment extends Fragment {
                     adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
                     if (getActivity() != null) {
                         list.setAdapter(adapt);
+
                         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                             @Override
                             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                                // para editar y modificar
+                                Long idcit = adapt.getItemId(position);
+                                numeroCita = idcit.intValue();
+                                estadoCita = finalGeneralFilter.get(position).getIs_modifiable();
+                                AlertDialogEditar();
+                                Log.i("numero cita", String.valueOf(numeroCita));
+                                Log.i("Estado", String.valueOf(estadoCita));
                                 return false;
                             }
                         });
@@ -119,8 +129,67 @@ public class appointmentFragment extends Fragment {
                 Log.i("entro", t.getMessage());
             }
         });
-
-
     }
 
-   }
+    public void CancelarCita() {
+
+
+        AppointmentService Appointment = ServiceGenerator.createService(AppointmentService.class);
+        General general = new General(Contants.ESTADO_CITA_CANCELADO);
+        Call<ResponseBody> call = Appointment.modificarCita(numeroCita, general);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.i("pasoO", "aca");
+                } else {
+                    Log.i("este rrore de mrd", String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void AlertDialogEditar() {
+        alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(R.string.f_fda_titleAlert);
+        alertDialog.setMessage(getString(R.string.f_fda_messageAlert));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.f_fda_modificarAlert), new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+
+                //...
+
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.f_fda_cancelarAlert), new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                Log.i("este estado", String.valueOf(estadoCita));
+                if (estadoCita ==false) {
+                    Toast.makeText(getActivity(), "No se puede cancelar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    CancelarCita();
+                }
+
+
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.f_fda_salirAlert), new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+
+                //...
+
+            }
+        });
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+    }
+
+}

@@ -15,6 +15,10 @@ public class General {
     public String status;
     public Boolean is_modifiable;
 
+    public General(String status) {
+        this.status = status;
+    }
+
     public Integer getId() {
         return id;
     }
