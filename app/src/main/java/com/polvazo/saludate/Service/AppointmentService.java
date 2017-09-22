@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -37,4 +38,9 @@ public interface AppointmentService {
 
     @PATCH("patient/appointment-api/{id}/")
     Call<ResponseBody> modificarCita (@Path("id") Integer id_user, @Body General General);
+
+    @PUT("patient/appointment-api/{id}/")
+    Call<ResponseBody> cambiarCita (@Path("id") Integer id_user, @Body appointmentProcess appointmentProcess);
+
+
 }

@@ -19,7 +19,7 @@ public class appointmentProcess {
         this.patient=patient;
         this.description = description;
         this.annotations=annotations;
-        this.setStatus(status);
+        this.status=status;
     }
 
     public Integer getId() {

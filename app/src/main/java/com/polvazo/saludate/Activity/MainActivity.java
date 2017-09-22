@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -314,12 +315,13 @@ public class MainActivity extends AppCompatActivity {
 
                     doctoradapt = new doctorAdapter(context, finallist);
                     spinner2.setAdapter(doctoradapt);
-                    spinner2.setSelection(doctoradapt.NO_SELECTION, true);
+                    spinner2.setSelection(doctoradapt.NO_SELECTION, false);
                     spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             horarioFiltrado = spinner2.getSelectedItem().toString();
-                            doctorPost = doctoradapt.getItem(position).getId();
+                            Long idcit = doctoradapt.getItemId(position);
+                            doctorPost = idcit.intValue();
                             getFecha(horarioFiltrado);
                             Log.i("doctor", horarioFiltrado);
                         }
@@ -358,14 +360,14 @@ public class MainActivity extends AppCompatActivity {
 
                     spinner.setAdapter(adapt);
                     spinner.setSelection(adapt.NO_SELECTION, false);
-
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
                             especialidadFiltrada = spinner.getSelectedItem().toString();
-                            especialidadPost = adapt.getItem(position).getId();
+                            Long idcit = adapt.getItemId(position);
+                            especialidadPost = idcit.intValue();
+
                             getDoctor(especialidadFiltrada);
                             Log.i("espcialidad", especialidadFiltrada);
                         }
@@ -412,7 +414,9 @@ public class MainActivity extends AppCompatActivity {
                     spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            fechaPost = horarioadapter.getItem(position).getId();
+                            Long idcit = horarioadapter.getItemId(position);
+                            fechaPost = idcit.intValue();
+
                             String fecha2 = spinner3.getSelectedItem().toString();
                             Log.i("fechaMierda", fecha2);
                         }
@@ -451,14 +455,18 @@ public class MainActivity extends AppCompatActivity {
         spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
         spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
         getEspecialidad();
+        anotatioPost = anotation.getText().toString().trim();
+        descripcionPost = descripcion.getText().toString().trim();
         nuevaCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                anotatioPost = anotation.getText().toString().trim();
-                descripcionPost = descripcion.getText().toString().trim();
-                ProgramarCita();
 
-                dialog.dismiss();
+                if (anotatioPost.isEmpty() && descripcionPost.isEmpty() && fechaPost == null && doctorPost == null) {
+                    Toast.makeText(getApplication().getApplicationContext(), "Completar todos los campos", Toast.LENGTH_SHORT).show();
+                } else {
+                    ProgramarCita();
+                    dialog.dismiss();
+                }
             }
         });
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -478,14 +486,14 @@ public class MainActivity extends AppCompatActivity {
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getApplicationContext());
         Integer id = Integer.parseInt(idUser);
         AppointmentService nuevacita = ServiceGenerator.createService(AppointmentService.class);
-        Call<ResponseBody> call = nuevacita.crearNuevaCita(1, 2, 2, "asda", "asd", "Cancelado");
+        Call<ResponseBody> call = nuevacita.crearNuevaCita(fechaPost, doctorPost, id, descripcionPost, anotatioPost, Contants.ESTADO_CITA_ATENDER);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i("que error es ", String.valueOf(response.isSuccessful()));
                 if (response.isSuccessful()) {
                     Log.i("se creo cita", "se creo");
-                    Toast.makeText(getApplicationContext(), "Nueva cita creada", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplication().getApplicationContext(), "Nueva cita creada", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
                     Log.i("este rrore de mrd", String.valueOf(response.code()));
@@ -500,6 +508,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
 }
