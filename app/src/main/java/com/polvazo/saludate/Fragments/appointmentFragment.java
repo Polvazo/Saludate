@@ -139,23 +139,23 @@ public class appointmentFragment extends Fragment {
                     }
 
                     Log.i("entro", "fragments");
-                    adapter = new appointmentAdapter(getActivity(), finalGeneralFilter);
-                    if (getActivity() != null) {
-                        list.setAdapter(adapter);
 
-                        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                            @Override
-                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                Long idcit = adapter.getItemId(position);
-                                numeroCita = idcit.intValue();
-                                estadoCita = finalGeneralFilter.get(position).getIs_modifiable();
-                                AlertDialogEditar();
-                                Log.i("numero cita", String.valueOf(numeroCita));
-                                Log.i("Estado", String.valueOf(estadoCita));
-                                return false;
-                            }
-                        });
+                    if (getActivity() != null) {
+                        adapter = new appointmentAdapter(getActivity(), finalGeneralFilter);
+                        list.setAdapter(adapter);
                     }
+                    list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            Long idcit = adapter.getItemId(position);
+                            numeroCita = idcit.intValue();
+                            estadoCita = finalGeneralFilter.get(position).getIs_modifiable();
+                            AlertDialogEditar();
+                            Log.i("numero cita", String.valueOf(numeroCita));
+                            Log.i("Estado", String.valueOf(estadoCita));
+                            return false;
+                        }
+                    });
 
 
                 } else {

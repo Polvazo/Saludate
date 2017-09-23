@@ -57,21 +57,23 @@ public class appointmentAdapter extends BaseAdapter {
 
         View view = inflater.inflate(R.layout.cita_adapter_list, parent, false);
 
+        if(view!=null){
+            TextView especialidad = (TextView) view.findViewById(R.id.txt_speciality);
+            especialidad.setText(cita.get(position).getSpeciality_doctor().getSpeciality().getName());
 
-        TextView especialidad = (TextView) view.findViewById(R.id.txt_speciality);
-        especialidad.setText(cita.get(position).getSpeciality_doctor().getSpeciality().getName());
+            TextView nombreDoctor = (TextView) view.findViewById(R.id.txt_doctor);
+            nombreDoctor.setText(cita.get(position).schedule_doctor.getDoctor().getPerson().getUser().getFirst_name() + " " + cita.get(position).schedule_doctor.getDoctor().getPerson().getUser().getLast_name());
 
-        TextView nombreDoctor = (TextView) view.findViewById(R.id.txt_doctor);
-        nombreDoctor.setText(cita.get(position).schedule_doctor.getDoctor().getPerson().getUser().getFirst_name() + " " + cita.get(position).schedule_doctor.getDoctor().getPerson().getUser().getLast_name());
+            TextView estado = (TextView) view.findViewById(R.id.txt_status);
+            estado.setText(cita.get(position).getStatus());
 
-        TextView estado = (TextView) view.findViewById(R.id.txt_status);
-        estado.setText(cita.get(position).getStatus());
+            TextView data = (TextView) view.findViewById(R.id.text_data);
+            data.setText(cita.get(position).getSchedule_doctor().getAvailability_date());
 
-        TextView data = (TextView) view.findViewById(R.id.text_data);
-        data.setText(cita.get(position).getSchedule_doctor().getAvailability_date());
+            TextView fecha = (TextView) view.findViewById(R.id.text_hora);
+            fecha.setText(cita.get(position).getSchedule_doctor().getSchedule().getStart_hour());
+        }
 
-        TextView fecha = (TextView) view.findViewById(R.id.text_hora);
-        fecha.setText(cita.get(position).getSchedule_doctor().getSchedule().getStart_hour());
 
 
         return view;

@@ -21,7 +21,9 @@
         <activity
             android:name=".Activity.login"
             android:windowSoftInputMode="adjustResize|stateHidden"   />
-        <activity android:name=".Activity.MainActivity"></activity>
+        <activity android:name=".Activity.MainActivity">
+
+        </activity>
 
     </application>
 
