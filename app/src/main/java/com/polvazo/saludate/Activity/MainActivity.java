@@ -114,8 +114,11 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
 
         Pager adapter = new Pager(getSupportFragmentManager(), mTabLayout.getTabCount());
+        if(getApplicationContext()!=null){
+            mViewPager.setAdapter(adapter);
+        }
 
-        mViewPager.setAdapter(adapter);
+
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

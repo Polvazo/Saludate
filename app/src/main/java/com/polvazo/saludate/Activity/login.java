@@ -62,9 +62,10 @@ public class login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(usuario.getWindowToken(), 0);
                 loginService();
+                login.setEnabled(false);
                 if (recordar.isChecked()) {
                     loginPrefsEditor.putBoolean("saveLogin", true);
                     loginPrefsEditor.putString("username", user);
@@ -124,7 +125,7 @@ public class login extends AppCompatActivity {
 
                     if (status.isStatus() == true) {
                         Intent intent = new Intent(login.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         Toast.makeText(login.this, R.string.a_log_toast_logueado, Toast.LENGTH_SHORT).show();
                         usuario.setText("");
@@ -141,7 +142,8 @@ public class login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<userLogin> call, Throwable t) {
-
+                login.setEnabled(true);
+                Toast.makeText(login.this, "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
