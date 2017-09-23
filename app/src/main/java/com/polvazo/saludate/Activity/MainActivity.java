@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<SpecialityDoctor>> call, Throwable t) {
-
+                Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<Speciality>> call, Throwable t) {
-
+                Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<ScheduleDoctor>> call, Throwable t) {
-
+                Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplication().getApplicationContext(), "Nueva cita creada", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
-                    Log.i("este rrore de mrd", String.valueOf(response.code()));
+                    Log.i("Error de conexion : crear cita", String.valueOf(response.code()));
                 }
 
             }
@@ -504,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.i("se creo cita", "no conexion");
+                Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 

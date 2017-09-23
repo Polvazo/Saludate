@@ -166,6 +166,7 @@ public class appointmentFragment extends Fragment {
             @Override
             public void onFailure(Call<List<General>> call, Throwable t) {
                 Log.i("entro", t.getMessage());
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -189,7 +190,7 @@ public class appointmentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -301,7 +302,7 @@ public class appointmentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<SpecialityDoctor>> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -345,7 +346,7 @@ public class appointmentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Speciality>> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -394,7 +395,7 @@ public class appointmentFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<ScheduleDoctor>> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 

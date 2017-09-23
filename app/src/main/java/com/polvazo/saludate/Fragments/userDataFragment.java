@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polvazo.saludate.Constans.Contants;
 import com.polvazo.saludate.Models.General;
@@ -109,7 +110,7 @@ public class userDataFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<General>> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
     }

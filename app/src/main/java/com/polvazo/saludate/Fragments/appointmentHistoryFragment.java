@@ -98,6 +98,7 @@ public class appointmentHistoryFragment extends Fragment {
             @Override
             public void onFailure(Call<List<General>> call, Throwable t) {
                 Log.i("entro", t.getMessage());
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
 
