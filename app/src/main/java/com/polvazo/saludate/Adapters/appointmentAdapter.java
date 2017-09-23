@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.polvazo.saludate.Models.General;
 import com.polvazo.saludate.Models.ScheduleDoctor;
 import com.polvazo.saludate.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +74,10 @@ public class appointmentAdapter extends BaseAdapter {
 
             TextView fecha = (TextView) view.findViewById(R.id.text_hora);
             fecha.setText(cita.get(position).getSchedule_doctor().getSchedule().getStart_hour());
+
+            ImageView img = (ImageView) view.findViewById(R.id.img_cita);
+            String url = cita.get(position).getSpeciality_doctor().getSpeciality().getImage();
+            Picasso.with(activity).load(url).placeholder(R.drawable.noimagen).error(R.drawable.noimagen).into(img);
         }
 
 
