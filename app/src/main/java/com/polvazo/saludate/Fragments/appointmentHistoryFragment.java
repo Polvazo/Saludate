@@ -91,7 +91,7 @@ public class appointmentHistoryFragment extends Fragment {
                     }
 
                 } else {
-
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -105,6 +105,7 @@ public class userDataFragment extends Fragment {
                     cel.setText(general.get(0).getPatient().getPerson().getPhone_number());
 
                 } else {
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 

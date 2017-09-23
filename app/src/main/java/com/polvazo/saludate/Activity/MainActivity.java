@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,33 +27,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polvazo.saludate.Adapters.Pager;
-import com.polvazo.saludate.Adapters.appointmentAdapter;
+
 import com.polvazo.saludate.Adapters.doctorAdapter;
 import com.polvazo.saludate.Adapters.especialidadAdapter;
 import com.polvazo.saludate.Adapters.horarioAdapter;
 import com.polvazo.saludate.Constans.Contants;
-import com.polvazo.saludate.Models.General;
+
 import com.polvazo.saludate.Models.ScheduleDoctor;
 import com.polvazo.saludate.Models.Speciality;
 import com.polvazo.saludate.Models.SpecialityDoctor;
-import com.polvazo.saludate.Models.appointmentProcess;
+
 import com.polvazo.saludate.R;
 import com.polvazo.saludate.Service.AppointmentService;
 import com.polvazo.saludate.Service.ServiceGenerator;
 import com.polvazo.saludate.Service.doctorService;
 import com.polvazo.saludate.Util.preferencia;
-import com.squareup.picasso.Downloader;
 
-import java.security.PrivateKey;
+
 import java.util.ArrayList;
-import java.util.List;
+
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private String descripcionPost;
     private String anotatioPost;
     private AlertDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +112,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
 
         Pager adapter = new Pager(getSupportFragmentManager(), mTabLayout.getTabCount());
-        if(getApplicationContext()!=null){
+        if (getApplicationContext() != null) {
             mViewPager.setAdapter(adapter);
         }
-
-
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -336,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                 } else {
+                    Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -358,11 +355,7 @@ public class MainActivity extends AppCompatActivity {
                     especialidad = response.body();
                     Log.i("estado", "entroDoctor");
 
-
                     adapt = new especialidadAdapter(context, especialidad);
-
-                    spinner.setAdapter(adapt);
-                    spinner.setSelection(adapt.NO_SELECTION, false);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -380,7 +373,10 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
+                    spinner.setAdapter(adapt);
+                    spinner.setSelection(adapt.NO_SELECTION, false);
                 } else {
+                    Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -411,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     horarioadapter = new horarioAdapter(context, horarioFinal);
-                    spinner3.setSelection(adapt.NO_SELECTION, true);
+                    spinner3.setSelection(adapt.NO_SELECTION, false);
                     spinner3.setAdapter(horarioadapter);
 
                     spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -432,6 +428,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else {
+                    Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -500,6 +497,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 } else {
                     Log.i("Error de conexion : crear cita", String.valueOf(response.code()));
+                    Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
 
             }

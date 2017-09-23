@@ -159,7 +159,7 @@ public class appointmentFragment extends Fragment {
 
 
                 } else {
-
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -176,7 +176,7 @@ public class appointmentFragment extends Fragment {
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getActivity());
         Integer id = Integer.parseInt(idUser);
         AppointmentService Appointment = ServiceGenerator.createService(AppointmentService.class);
-        appointmentProcess general = new appointmentProcess(fechaPost,doctorPost,id,descripcionPost,anotatioPost,Contants.ESTADO_CITA_ATENDER);
+        appointmentProcess general = new appointmentProcess(fechaPost, doctorPost, id, descripcionPost, anotatioPost, Contants.ESTADO_CITA_ATENDER);
         Call<ResponseBody> call = Appointment.cambiarCita(numeroCita, general);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -185,6 +185,7 @@ public class appointmentFragment extends Fragment {
                     Log.i("pasoO", "por esta mierda paso csm");
                 } else {
                     Log.i("este rrore de mrd PUT", String.valueOf(response.code()));
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -194,6 +195,7 @@ public class appointmentFragment extends Fragment {
             }
         });
     }
+
     public void CancelarCita() {
 
 
@@ -207,12 +209,13 @@ public class appointmentFragment extends Fragment {
                     Log.i("pasoO", "por esta mierda paso");
                 } else {
                     Log.i("este rrore de mrd", String.valueOf(response.code()));
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -225,7 +228,7 @@ public class appointmentFragment extends Fragment {
 
             public void onClick(DialogInterface dialog, int id) {
 
-                if (estadoCita ==false) {
+                if (estadoCita == false) {
 
                     Toast.makeText(getActivity(), "No se puede cancelar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -238,7 +241,7 @@ public class appointmentFragment extends Fragment {
 
             public void onClick(DialogInterface dialog, int id) {
                 Log.i("este estado", String.valueOf(estadoCita));
-                if (estadoCita ==false) {
+                if (estadoCita == false) {
                     Toast.makeText(getActivity(), "No se puede cancelar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
                 } else {
                     CancelarCita();
@@ -259,6 +262,7 @@ public class appointmentFragment extends Fragment {
         alertDialog.show();
         alertDialog.setCancelable(false);
     }
+
     public void getDoctor(final String especialidadFiltrada) {
 
 
@@ -297,6 +301,7 @@ public class appointmentFragment extends Fragment {
                     });
 
                 } else {
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -322,6 +327,7 @@ public class appointmentFragment extends Fragment {
 
                     adapt = new especialidadAdapter(getActivity(), especialidad);
 
+
                     spinner.setAdapter(adapt);
                     spinner.setSelection(adapt.NO_SELECTION, false);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -341,6 +347,7 @@ public class appointmentFragment extends Fragment {
                         }
                     });
                 } else {
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -371,6 +378,7 @@ public class appointmentFragment extends Fragment {
                         }
                     }
                     horarioadapter = new horarioAdapter(getActivity(), horarioFinal);
+
                     spinner3.setSelection(adapt.NO_SELECTION, true);
                     spinner3.setAdapter(horarioadapter);
 
@@ -390,6 +398,7 @@ public class appointmentFragment extends Fragment {
 
 
                 } else {
+                    Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -416,14 +425,17 @@ public class appointmentFragment extends Fragment {
         spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
         spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
         getEspecialidad();
+        descripcionPost = descripcion.getText().toString().trim();
+        anotatioPost = anotation.getText().toString().trim();
         nuevaCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                anotatioPost = anotation.getText().toString().trim();
-                descripcionPost = descripcion.getText().toString().trim();
+                if (anotatioPost.isEmpty() && descripcionPost.isEmpty() && fechaPost == null && doctorPost == null) {
+                    Toast.makeText(getActivity(), "Completar todos los campos", Toast.LENGTH_SHORT).show();
+                }else {
                 modificarNuevaCita();
-                dialog.dismiss();
+                dialog.dismiss();}
             }
         });
         cancelar.setOnClickListener(new View.OnClickListener() {
