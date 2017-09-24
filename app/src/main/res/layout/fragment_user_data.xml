@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPerfilData"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,12 +48,13 @@
             android:id="@+id/img_data_perfil"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-             />
+            android:layout_weight="2" />
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1.5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/f_fda_desconocido"/>
+                android:text="@string/f_fda_desconocido" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -121,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/f_fda_desconocido"/>
+                android:text="@string/f_fda_desconocido" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -155,8 +157,59 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/f_fda_desconocido" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Tipo de Sangre"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/et_tipo_sangre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/f_fda_desconocido" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Peso"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/et_peso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/f_fda_desconocido" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Altura"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/et_altura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/f_fda_desconocido" />
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

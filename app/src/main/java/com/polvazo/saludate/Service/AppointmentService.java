@@ -24,6 +24,9 @@ public interface AppointmentService {
     @GET("patient/appointment-api")
     Call<List<General>> getAppointment (@Query("id_user") Integer id_user);
 
+    @GET("patient/medical-record-api/{id}")
+    Call<General> getMedicalRecord (@Path("") Integer id_user);
+
     @FormUrlEncoded
     @POST("patient/appointment-api/")
     Call<ResponseBody> crearNuevaCita(

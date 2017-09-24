@@ -84,6 +84,8 @@ public class appointmentFragment extends Fragment {
     private String descripcionPost;
     private String anotatioPost;
     private android.support.v7.app.AlertDialog dialog;
+    private ArrayList<ScheduleDoctor> horarioFinal;
+
 
     @Nullable
     @Override
@@ -100,7 +102,10 @@ public class appointmentFragment extends Fragment {
             }
         });
         refresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+
         appointment();
+
+
         return view;
     }
 
@@ -131,31 +136,33 @@ public class appointmentFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     general = response.body();
-                    for (int i = 0; i < general.size(); i++) {
-                        if (general.get(i).getStatus().equals("Por Atender")) {
-                            finalGeneralFilter.add(general.get(i));
+                    if (!general.isEmpty()) {
+                        for (int i = 0; i < general.size(); i++) {
+                            if (general.get(i).getStatus().equals("Por Atender")) {
+                                finalGeneralFilter.add(general.get(i));
+                            }
+
                         }
 
-                    }
+                        Log.i("entro", "fragments");
 
-                    Log.i("entro", "fragments");
-
-                    if (getActivity() != null) {
-                        adapter = new appointmentAdapter(getActivity(), finalGeneralFilter);
-                        list.setAdapter(adapter);
-                    }
-                    list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                        @Override
-                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                            Long idcit = adapter.getItemId(position);
-                            numeroCita = idcit.intValue();
-                            estadoCita = finalGeneralFilter.get(position).getIs_modifiable();
-                            AlertDialogEditar();
-                            Log.i("numero cita", String.valueOf(numeroCita));
-                            Log.i("Estado", String.valueOf(estadoCita));
-                            return false;
+                        if (getActivity() != null) {
+                            adapter = new appointmentAdapter(getActivity(), finalGeneralFilter);
+                            list.setAdapter(adapter);
                         }
-                    });
+                        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                                Long idcit = adapter.getItemId(position);
+                                numeroCita = idcit.intValue();
+                                estadoCita = finalGeneralFilter.get(position).getIs_modifiable();
+                                AlertDialogEditar();
+                                Log.i("numero cita", String.valueOf(numeroCita));
+                                Log.i("Estado", String.valueOf(estadoCita));
+                                return false;
+                            }
+                        });
+                    }
 
 
                 } else {
@@ -250,17 +257,7 @@ public class appointmentFragment extends Fragment {
 
             }
         });
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.f_fda_salirAlert), new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int id) {
-                alertDialog.dismiss();
-
-                //...
-
-            }
-        });
         alertDialog.show();
-        alertDialog.setCancelable(false);
     }
 
     public void getDoctor(final String especialidadFiltrada) {
@@ -365,7 +362,7 @@ public class appointmentFragment extends Fragment {
 
         doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
         Call<ArrayList<ScheduleDoctor>> call = doctorservice.getHorario();
-        final ArrayList<ScheduleDoctor> horarioFinal = new ArrayList<>();
+        horarioFinal = new ArrayList<>();
         call.enqueue(new Callback<ArrayList<ScheduleDoctor>>() {
             @Override
             public void onResponse(Call<ArrayList<ScheduleDoctor>> call, Response<ArrayList<ScheduleDoctor>> response) {
@@ -433,9 +430,10 @@ public class appointmentFragment extends Fragment {
 
                 if (anotatioPost.isEmpty() && descripcionPost.isEmpty() && fechaPost == null && doctorPost == null) {
                     Toast.makeText(getActivity(), "Completar todos los campos", Toast.LENGTH_SHORT).show();
-                }else {
-                modificarNuevaCita();
-                dialog.dismiss();}
+                } else {
+                    modificarNuevaCita();
+                    dialog.dismiss();
+                }
             }
         });
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -448,4 +446,6 @@ public class appointmentFragment extends Fragment {
         dialog.cancel();
         dialog.show();
     }
+
+
 }

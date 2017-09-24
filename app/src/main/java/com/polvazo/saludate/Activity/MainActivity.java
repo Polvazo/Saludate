@@ -356,6 +356,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("estado", "entroDoctor");
 
                     adapt = new especialidadAdapter(context, especialidad);
+                    spinner.setAdapter(adapt);
+                    spinner.setSelection(adapt.NO_SELECTION, false);
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -373,8 +375,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                    spinner.setAdapter(adapt);
-                    spinner.setSelection(adapt.NO_SELECTION, false);
+
                 } else {
                     Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
@@ -455,15 +456,17 @@ public class MainActivity extends AppCompatActivity {
         spinner2 = (Spinner) mView.findViewById(R.id.spinner_Doctor);
         spinner3 = (Spinner) mView.findViewById(R.id.spinner_Horario);
         getEspecialidad();
-        anotatioPost = anotation.getText().toString().trim();
-        descripcionPost = descripcion.getText().toString().trim();
+
         nuevaCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                anotatioPost = anotation.getText().toString().trim();
+                descripcionPost = descripcion.getText().toString().trim();
                 if (anotatioPost.isEmpty() && descripcionPost.isEmpty() && fechaPost == null && doctorPost == null) {
                     Toast.makeText(getApplication().getApplicationContext(), "Completar todos los campos", Toast.LENGTH_SHORT).show();
-                } else {
+               } else {
+
                     ProgramarCita();
                     dialog.dismiss();
                 }
@@ -485,12 +488,14 @@ public class MainActivity extends AppCompatActivity {
 
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getApplicationContext());
         Integer id = Integer.parseInt(idUser);
+        Log.i("idusuario", String.valueOf(id));
         AppointmentService nuevacita = ServiceGenerator.createService(AppointmentService.class);
-        Call<ResponseBody> call = nuevacita.crearNuevaCita(fechaPost, doctorPost, id, descripcionPost, anotatioPost, Contants.ESTADO_CITA_ATENDER);
+        Call<ResponseBody> call = nuevacita.crearNuevaCita(fechaPost, doctorPost, id, anotatioPost, descripcionPost, Contants.ESTADO_CITA_ATENDER);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.i("que error es ", String.valueOf(response.isSuccessful()));
+                Log.i("cita datos",call.toString());
                 if (response.isSuccessful()) {
                     Log.i("se creo cita", "se creo");
                     Toast.makeText(getApplication().getApplicationContext(), "Nueva cita creada", Toast.LENGTH_SHORT).show();

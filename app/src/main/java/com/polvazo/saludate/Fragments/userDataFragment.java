@@ -3,6 +3,7 @@ package com.polvazo.saludate.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +57,20 @@ public class userDataFragment extends Fragment {
         lugarnac = (TextView) view.findViewById(R.id.txt_departamento);
         cel = (TextView) view.findViewById(R.id.txt_celular);
         img = (ImageView) view.findViewById(R.id.img_data_perfil);
-        getData();
+
+
+            getData();
+
+
+
+
         return view;
     }
 
     public void getData() {
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getActivity());
         Integer id = Integer.parseInt(idUser);
+        Log.i("usuario", String.valueOf(id));
         AppointmentService Appointment = ServiceGenerator.createService(AppointmentService.class);
         Call<List<General>> call = Appointment.getAppointment(id);
         call.enqueue(new Callback<List<General>>() {
@@ -70,6 +78,8 @@ public class userDataFragment extends Fragment {
             public void onResponse(Call<List<General>> call, Response<List<General>> response) {
                 if (response.isSuccessful()) {
                     general = response.body();
+
+                    if(!general.isEmpty()){
 
                     if (general.get(0).getPatient().getPerson().getGender().equals("F")) {
                         img.setImageResource(R.drawable.profile_woman);
@@ -79,31 +89,14 @@ public class userDataFragment extends Fragment {
 
 
                     nombre.setText(general.get(0).getPatient().getPerson().getUser().getFirst_name() + " " + general.get(0).getPatient().getPerson().getUser().getLast_name());
-
-
                     data.setText(general.get(0).getPatient().getPerson().getBorn_date());
-
-
                     lugar.setText(general.get(0).getPatient().getPerson().getHome_address());
-
-
                     estadoCivil.setText(general.get(0).getPatient().getCivil_status());
-
-
                     correo.setText(general.get(0).getPatient().getPerson().getUser().getEmail());
-
-
                     genero.setText(general.get(0).getPatient().getPerson().getGender());
-
-
                     dni.setText(general.get(0).getPatient().getPerson().getDni());
-
-
                     lugarnac.setText(general.get(0).getPatient().getPerson().getBorn_place().getName_location());
-
-
-                    cel.setText(general.get(0).getPatient().getPerson().getPhone_number());
-
+                    cel.setText(general.get(0).getPatient().getPerson().getPhone_number());}
                 } else {
                     Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }

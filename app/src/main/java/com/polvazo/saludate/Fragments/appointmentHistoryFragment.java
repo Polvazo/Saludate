@@ -46,7 +46,10 @@ public class appointmentHistoryFragment extends Fragment {
             }
         });
         refreshHistory.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-        appointment();
+
+            appointment();
+
+
         return view;
     }
 
@@ -77,6 +80,7 @@ public class appointmentHistoryFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     general = response.body();
+                    if(!general.isEmpty()){
                     for (int i = 0; i < general.size(); i++) {
                         if (!general.get(i).getStatus().equals("Por Atender")) {
                             finalGeneralFilter.add(general.get(i));
@@ -88,7 +92,7 @@ public class appointmentHistoryFragment extends Fragment {
                     appointmentAdapter adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
                     if (getActivity()!=null){
                         list.setAdapter(adapt);
-                    }
+                    }}
 
                 } else {
                     Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
