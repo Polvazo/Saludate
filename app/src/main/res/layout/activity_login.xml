@@ -7,7 +7,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.polvazo.saludate.Activity.login">
+    tools:context="com.polvazo.saludate.com.saludate.saludate.Activity.login">
 
     <RelativeLayout
         android:layout_width="match_parent"

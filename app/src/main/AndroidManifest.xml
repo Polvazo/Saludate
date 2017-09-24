@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/logosaludate"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreem.SplashScreem">
+        <activity android:name="com.saludate.saludate.SplashScreem.SplashScreem">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,9 +19,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.login"
+            android:name="com.saludate.saludate.Activity.login"
             android:windowSoftInputMode="adjustResize|stateHidden"   />
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name="com.saludate.saludate.Activity.MainActivity">
 
         </activity>
 
