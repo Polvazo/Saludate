@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
     public void getDoctor(final String especialidadFiltrada) {
 
 
-        final doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
+        doctorService doctorservice = ServiceGenerator.createService(doctorService.class);
         Call<ArrayList<SpecialityDoctor>> call = doctorservice.getSpecialityDoctor();
         final ArrayList<SpecialityDoctor> finallist = new ArrayList<>();
         call.enqueue(new Callback<ArrayList<SpecialityDoctor>>() {
@@ -346,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                 } else {
+                    Log.i("errorde Doctor csm", String.valueOf(response.code()));
                     Toast.makeText(getApplication().getApplicationContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -498,7 +499,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ProgramarCita() {
-
 
         String idUser = preferencia.obtener(Contants.ID_USUARIO, getApplicationContext());
         Integer id = Integer.parseInt(idUser);

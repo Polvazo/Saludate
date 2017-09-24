@@ -14,12 +14,12 @@ import retrofit2.http.GET;
 
 public interface doctorService {
 
-    @GET("doctor/speciality-doctor-api")
+    @GET("doctor/speciality-doctor-api/")
     Call<ArrayList<SpecialityDoctor>> getSpecialityDoctor();
 
     @GET("doctor/speciality-api/")
     Call<ArrayList<Speciality>> getSpeciality();
 
-    @GET("doctor/schedule-doctor-api")
+    @GET("doctor/schedule-doctor-api/")
     Call<ArrayList<ScheduleDoctor>> getHorario();
 }

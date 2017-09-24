@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.saludate.saludate.Activity.MainActivity;
+import com.saludate.saludate.Activity.login;
 import com.saludate.saludate.Adapters.appointmentAdapter;
 import com.saludate.saludate.Adapters.doctorAdapter;
 import com.saludate.saludate.Adapters.especialidadAdapter;
@@ -79,6 +80,7 @@ public class appointmentFragment extends Fragment {
     private String anotatioPost;
     private android.support.v7.app.AlertDialog dialog;
     private ArrayList<ScheduleDoctor> horarioFinal;
+    AlertDialog dialogoSeguridad;
 
 
     @Nullable
@@ -231,11 +233,10 @@ public class appointmentFragment extends Fragment {
 
                 if (estadoCita == false) {
 
-                    Toast.makeText(getActivity(), "No se puede cancelar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No se puede modificar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
                 } else {
-                    newCita();
+                    alertaSeguridadModificar();
                 }
-
             }
         });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.f_fda_cancelarAlert), new DialogInterface.OnClickListener() {
@@ -245,7 +246,9 @@ public class appointmentFragment extends Fragment {
                 if (estadoCita == false) {
                     Toast.makeText(getActivity(), "No se puede cancelar su cita, su cita es muy pronto...!!", Toast.LENGTH_SHORT).show();
                 } else {
-                    CancelarCita();
+                    alertaSeguridad();
+
+
                 }
 
 
@@ -439,6 +442,50 @@ public class appointmentFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.cancel();
         dialog.show();
+    }
+
+    public void alertaSeguridad() {
+
+        dialogoSeguridad = new AlertDialog.Builder(getActivity()).create();
+        dialogoSeguridad.setTitle("Cancelar Cita");
+        dialogoSeguridad.setMessage("Esta seguro que desea cancelar su cita");
+        dialogoSeguridad.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "CANCELAR",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        dialogoSeguridad.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "CANCELAR CITA",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        CancelarCita();
+                    }
+                });
+        dialogoSeguridad.show();
+        dialogoSeguridad.setCancelable(false);
+
+    }
+
+    public void alertaSeguridadModificar() {
+
+        dialogoSeguridad = new AlertDialog.Builder(getActivity()).create();
+        dialogoSeguridad.setTitle("Modificar Cita");
+        dialogoSeguridad.setMessage("Esta seguro que desea modificar su cita");
+        dialogoSeguridad.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "CANCELAR",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        dialogoSeguridad.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Modificar Cita",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        newCita();
+                    }
+                });
+        dialogoSeguridad.show();
+        dialogoSeguridad.setCancelable(false);
+
     }
 
 
