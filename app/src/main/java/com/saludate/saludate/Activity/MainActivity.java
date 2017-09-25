@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setOffscreenPageLimit(2);
 
         Pager adapter = new Pager(getSupportFragmentManager(), mTabLayout.getTabCount());
         if (getApplicationContext() != null) {
@@ -198,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.a_mai__ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        finish();
+                        Intent intent = new Intent(MainActivity.this, login.class);
+                        startActivity(intent);
 
                     }
                 });
@@ -301,7 +303,8 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        MainActivity.super.onBackPressed();
+                        Intent intent = new Intent(MainActivity.this, login.class);
+                        startActivity(intent);
                     }
                 }).create().show();
     }
