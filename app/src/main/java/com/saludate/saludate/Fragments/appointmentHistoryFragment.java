@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.saludate.saludate.Adapters.appointmentAdapter;
@@ -30,6 +32,7 @@ import retrofit2.Response;
 public class appointmentHistoryFragment extends Fragment {
     ListView list;
     List<General> general;
+    private TextView text;
     private SwipeRefreshLayout refreshHistory;
 
     @Nullable
@@ -37,6 +40,7 @@ public class appointmentHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment_history, container, false);
         list = (ListView) view.findViewById(R.id.listCita);
+        text = (TextView) view.findViewById(R.id.empty_view);
         refreshHistory = (SwipeRefreshLayout) view.findViewById(R.id.refresHistory);
         refreshHistory.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -46,7 +50,7 @@ public class appointmentHistoryFragment extends Fragment {
         });
         refreshHistory.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
-            appointment();
+        appointment();
 
 
         return view;
@@ -79,19 +83,22 @@ public class appointmentHistoryFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     general = response.body();
-                    if(!general.isEmpty()){
-                    for (int i = 0; i < general.size(); i++) {
-                        if (!general.get(i).getStatus().equals("Por Atender")) {
-                            finalGeneralFilter.add(general.get(i));
+                    if (!general.isEmpty()) {
+                        for (int i = 0; i < general.size(); i++) {
+                            if (!general.get(i).getStatus().equals("Por Atender")) {
+                                finalGeneralFilter.add(general.get(i));
+                            }
+
                         }
 
+                        Log.i("entro", "fragments");
+                        appointmentAdapter adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
+                        if (getActivity() != null) {
+                            list.setAdapter(adapt);
+                        }
+                    } else {
+                       list.setEmptyView(getView().findViewById(R.id.empty_view));
                     }
-
-                    Log.i("entro", "fragments");
-                    appointmentAdapter adapt = new appointmentAdapter(getActivity(), finalGeneralFilter);
-                    if (getActivity()!=null){
-                        list.setAdapter(adapt);
-                    }}
 
                 } else {
                     Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_SHORT).show();
