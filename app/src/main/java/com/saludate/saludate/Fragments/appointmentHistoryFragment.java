@@ -97,7 +97,7 @@ public class appointmentHistoryFragment extends Fragment {
                             list.setAdapter(adapt);
                         }
                     } else {
-                       list.setEmptyView(getView().findViewById(R.id.empty_view));
+                        list.setEmptyView(getView().findViewById(R.id.empty_view));
                     }
 
                 } else {

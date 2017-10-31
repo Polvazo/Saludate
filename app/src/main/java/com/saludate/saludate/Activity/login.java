@@ -45,9 +45,9 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(Contants.CERRAR_SESION==true){
+        if (Contants.CERRAR_SESION == true) {
             AlertaCerrarSesion();
-            Contants.CERRAR_SESION=false;
+            Contants.CERRAR_SESION = false;
         }
 
         login = (Button) findViewById(R.id.btn_login);
@@ -131,7 +131,7 @@ public class login extends AppCompatActivity {
                     preferencia.Guardar(Contants.ID_USUARIO, idUser, getApplicationContext());
 
                     String nameComplete = status.getFull_name();
-                    preferencia.Guardar(Contants.NOMNRE_COMPLETO,nameComplete,getApplicationContext());
+                    preferencia.Guardar(Contants.NOMNRE_COMPLETO, nameComplete, getApplicationContext());
 
                     String idPerson = String.valueOf(status.getId_person());
                     preferencia.Guardar(Contants.ID_PERSON, idPerson, getApplicationContext());
@@ -168,7 +168,8 @@ public class login extends AppCompatActivity {
         });
 
     }
-    public void AlertaCerrarSesion(){
+
+    public void AlertaCerrarSesion() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(login.this).create();
         alertDialog.setTitle("Cerrar Sesión");
